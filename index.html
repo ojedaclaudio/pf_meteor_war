@@ -16,8 +16,25 @@
     <header>
         <div><h1 class="titulo">Meteor WAR</h1></div>
     </header>
-    <main class="d-flex align-items-center justify-content-center">
-        <div class="animate__heartBeat animate__animated animate__bounce animate__infinite"><h2 class="titulo">PROXIMAMENTE</h2></div>
+    <main class="d-flex align-items-center justify-content-center container-fluid flex-column ">
+            <form id="form" onsubmit="return false;" class="row card-login d-block">
+                <p class="login"></p>
+                <input type="text" id="userInput" class="col-9">
+                <input type="submit" value='OK' onclick="" class="login col-2">
+                <p class="login col-10 login-error"></p>
+            </form>
+            <div class=" d-flex justify-content-evenly flex-row ">
+                <div class="colorNave col"><img src="" alt="" class="img-fluid"></div>
+                <div class="colorNave col"><img src="" alt="" class="img-fluid"></div>
+                <div class="colorNave col"><img src="" alt="" class="img-fluid"></div>
+        </div>
+        <div id="MAIN">
+            <div class="meteor">
+                <img src="" >
+                <h2 class="proximamente"></h2> 
+            </div>
+            <div class="nave"><img src="" ></div>
+        </div>
     </main>
     <footer class="d-flex align-items-center">
         <div id="footer-copy"> <!-- COPY -->
@@ -29,3 +46,4 @@
     <script src="./js/main.js"></script>
 </body>
 </html>
+<button></button>

@@ -1,67 +1,130 @@
-//VARIABLES INICIALES
-let jugador
+let login = document.getElementsByClassName('login');
 let nave
-let colorNave
+let jugador
+let userInput = document.getElementById('userInput')
+let colorNave = document.getElementsByClassName('colorNave')
+let form = document.getElementById('form')
+let colorCkd
+let jugadorCkd
+let naveCkd
+let test = 'test'
+let score = 0
 
 //LOGIN
-jugador = prompt('Bienvenido a Meteor WAR! Por favor, escoje el nombre de usuario:');
+//LOGIN USUARIO
 
-
-function login(dato) {
-    while((dato == "")||(dato == " ")||(dato == null)){
-        dato = prompt("Por favor, escoje un nombre valido");
+console.log(userInput);
+console.log(login);
+console.log(colorNave);
+login[0].innerText = "Bienvenido a Meteor WAR! Por favor, escoge el nombre de usuario"
+login[1].setAttribute('onclick', 'userName()')
+function userName() {
+    jugador = document.getElementById("userInput").value;
+    if((jugador == "")||(jugador == " ")||(jugador == null)){
+        login[2].innerText = "Por favor, escoge un nombre valido"
+    }else{
+        login[2].innerText = "" 
+        login[0].innerText = 'Hola' + " " + jugador + "! " + 'Por favor escoje el nombre de tu nave:'
+        login[1].setAttribute('onclick', 'naveName()');
+        nave = "ok";
+        jugadorCkd = 'ok';
     }
 }
-login(jugador)
+//LOGIN NAVE
 
-nave = prompt('Hola' + " " + jugador + "! " + 'por favor escoje el nombre de tu nave:');
-login(nave)
+/* function naveColor(i, color){
+    cardNaves[i].setAttribute('src','./assets/img/nave_'+ color +'.png')
+}; */
 
-colorNave = prompt("Escoje el numero para el color de tu nave" + " " + nave + ":\n 1. Rojo \n 2. Azul \n 3. Verde");
+let cardNaves = document.getElementsByTagName('img');
+console.log(cardNaves);
+let btnRed = document.createElement("button")
+btnRed.innerHTML = 'ROJO';
+let btnBlue = document.createElement("button")
+btnBlue.innerHTML = 'AZUL';
+let btnGreen = document.createElement("button")
+btnGreen.innerHTML = 'VERDE';
 
-while((colorNave != "1")&&(colorNave != "2")&&(colorNave != "3")){
-    colorNave = prompt("Por favor, escoje un numero de la lista:\n 1. Rojo \n 2. Azul \n 3. Verde");
+function naveName() {
+    nave = document.getElementById("userInput").value;
+    if((nave == "")||(nave == " ")||(nave == null)){
+        login[2].innerText = "Por favor, escoge un nombre valido"
+    }else{
+        login[2].innerText = "" 
+        login[2].remove()
+        userInput.remove();
+        login[1].remove()
+        login[0].innerText = "Escoge el color para tu nave" + " " + nave
+        cardNaves[0].setAttribute('src','./assets/img/nave_red.png')
+        colorNave[0].appendChild(btnRed);
+        btnRed.className='btn-danger btn-color';
+        cardNaves[1].setAttribute('src','./assets/img/nave_green.png')
+        colorNave[1].appendChild(btnGreen);
+        btnGreen.className='btn-success btn-color';
+        cardNaves[2].setAttribute('src','./assets/img/nave_blue.png')
+        colorNave[2].appendChild(btnBlue);
+        btnBlue.className='btn-primary btn-color'
+        naveCkd = 'ok';
+    }
+}
+if(nave=="ok"){
+    naveName()
+}
+//LISTENER ELECCION DE NAVE
+let eleccionColor
+function eliminarLogin(){
+    btnBlue.remove()
+    btnGreen.remove()
+    btnRed.remove()
+    form.remove();
+}
+btnRed.addEventListener("click", ()=>{
+    eliminarLogin()
+    eleccionColor = 'red';
+    colorCkd = 'ok'
+    player1 = new Player (jugador, nave, eleccionColor, score);
+    datosJSON()
+    cardNaves[4].setAttribute('src','./assets/img/nave_red.png')
+    proximamente[0].innerText = 'PROXIMAMENTE'
+    proximamente[0].className = 'proximamente animate__heartBeat animate__animated animate__bounce animate__infinite'
+});
+btnGreen.addEventListener("click", ()=>{
+    eliminarLogin()
+    eleccionColor = 'green';
+    colorCkd = 'ok'
+    player1 = new Player (jugador, nave, eleccionColor, score);
+    datosJSON()
+    cardNaves[4].setAttribute('src','./assets/img/nave_green.png')
+    proximamente[0].innerText = 'PROXIMAMENTE'
+    proximamente[0].className = 'proximamente animate__heartBeat animate__animated animate__bounce animate__infinite'
+});
+btnBlue.addEventListener("click", ()=>{
+    eliminarLogin()
+    eleccionColor = 'blue';
+    colorCkd = 'ok'
+    player1 = new Player (jugador, nave, eleccionColor, score);
+    datosJSON()
+    cardNaves[4].setAttribute('src','./assets/img/nave_blue.png')
+    proximamente[0].innerText = 'PROXIMAMENTE'
+    proximamente[0].className = 'proximamente animate__heartBeat animate__animated animate__bounce animate__infinite'
+});
+//STORAGE
+let player1
+
+function Player (nombreJugador, nombreNave, colorNave, scoreInicial){
+    this.nombreJugador = nombreJugador;
+    this.nombreNave = nombreNave;
+    this.colorNave = colorNave;
+    this.scoreInicial = scoreInicial;
+};
+function datosJSON(){
+    playerJSON = JSON.stringify(player1);
+    localStorage.setItem("datosJugador", playerJSON);
 }
 
-if(colorNave== "1"){
-    alert("Atento soldado " + jugador + "," + " " + "tu nave " + nave + " esta en mantenimiento. Nos falta pintura Roja.");
-    colorNave = 'roja';
-} else if(colorNave== "2"){
-    alert("Atento soldado " + jugador + "," + " " + "tu nave " + nave + " esta en mantenimiento. Nos falta pintura Azul.");
-    colorNave = "azul";
-} else  if(colorNave== "3"){
-    alert("Atento soldado " + jugador + "," + " " + "tu nave " + nave + " esta en mantenimiento. Nos falta pintura Verde.");
-    colorNave = 'verde';
-} else{
-    alert("Algo salio mal, por favor vuelve a recargar la pagina.");
-};
-
-//OBJETOS Y ARRAYS
-function datosJugador (nombre, nave, colorNave){
-    this.nombre = nombre;
-    this.nave = nave;
-    this.colorNave = colorNave;
-};
-const player = new datosJugador (jugador, nave, colorNave);
-console.log(player.nombre);
-console.log(player.nave);
-console.log(player.colorNave);
-
-const naveColor = [
-    {color: 'roja', diseno: 'archivo del diseno'},
-    {color:'verde', diseno: 'archivo del diseno'},
-    {color: 'azul', diseno: 'archivo del diseno'},
-]; //En esta array van a ir los 3 distintos disenos de la nave dependiendo el color
-
-//Find y Filter
-//Esto son solo pruebas, ya que no se me ocurria una forma de meter este metodo en mi proyecto por el momento.
-const test1 = naveColor.find((el) => el.color === "roja")
-const test2 = naveColor.find((el) => el.color === 'negro')
-
-console.log(test1);
-console.log(test2);
-
-const test3 = naveColor.filter((el) => el.diseno.includes("archivo"));
-const test4 = naveColor.filter((el) => el.color.includes("negro"));
-console.log(test3);
-console.log(test4);
+//////////////MAIN JUEGO
+let proximamente = document.getElementsByClassName('proximamente')
+let main = document.getElementsByTagName('main')
+if(colorCkd == 'ok'){
+    cardNaves[4].setAttribute('src','./assets/img/nave_green.png')
+}
